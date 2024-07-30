@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+void add(void* result, void* a, void* b) {
+    
+    *(static_cast<float*>(result)) = *(static_cast<float*>(a)) + *(static_cast<float*>(b));
+}
+void subtract(void* result, void* a, void* b) {
+   
+    *(static_cast<float*>(result)) = *(static_cast<float*>(a)) - *(static_cast<float*>(b));
+}
+
+void multiply(void* result, void* a, void* b) {
+    *(static_cast<float*>(result)) = *(static_cast<float*>(a)) * *(static_cast<float*>(b));
+}
+
+
+void divide(void* result, void* a, void* b) {
+
+    if (*(static_cast<float*>(b)) != 0) {
+       
+        *(static_cast<float*>(result)) = *(static_cast<float*>(a)) / *(static_cast<float*>(b));
+    } else {
+  
+        cout << "Error: Division by zero!" << endl;
+    }
+}
+void calculator(float& result, float a, float b, char op) {
+    void* p_result = &result; 
+    void* p_a = &a;           
+    void* p_b = &b;          
+
+    switch (op) {
+        case '+':
+            add(p_result, p_a, p_b); // Call add function
+            break;
+        case '-':
+            subtract(p_result, p_a, p_b); // Call subtract function
+            break;
+        case '*':
+            multiply(p_result, p_a, p_b); // Call multiply function
+            break;
+        case '/':
+            divide(p_result, p_a, p_b); // Call divide function
+            break;
+        default:
+            cout << "Error: Invalid operator!" << endl;
+            return;
+    }
+    
+    cout << "Result: " << result << endl;
+}
+
+int main() {
+    float a, b, result;
+    char op;
+
+    
+    cout << "Enter first number: ";
+    cin >> a;
+
+    cout << "Enter an operator (+, -, *, /): ";
+    cin >> op;
+
+    cout << "Enter second number: ";
+    cin >> b;
+
+    calculator(result, a, b, op);
+
+    return 0;
+}
